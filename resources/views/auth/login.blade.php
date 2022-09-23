@@ -74,7 +74,7 @@
                                 <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Inicia sesión</h4>
                                     <div class="row mt-3">
                                         <div class="col-2 text-center ms-auto">
-                                            <a class="btn btn-link px-3" href="javascript:;">
+                                            <a class="btn btn-link px-3" href="{{ url('auth/facebook') }}">
                                                 <i class="fa fa-facebook text-white text-lg"></i>
                                             </a>
                                         </div>
@@ -84,7 +84,7 @@
                                             </a>
                                         </div>
                                         <div class="col-2 text-center me-auto">
-                                            <a class="btn btn-link px-3" href="javascript:;">
+                                            <a class="btn btn-link px-3" href="{{ url('login-google') }}">
                                                 <i class="fa fa-google text-white text-lg"></i>
                                             </a>
                                         </div>

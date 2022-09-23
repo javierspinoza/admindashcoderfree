@@ -177,6 +177,9 @@ return [
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
 
+        // Login con Facebook
+        Laravel\Socialite\SocialiteServiceProvider::class,
+
     ],
 
     /*
@@ -231,6 +234,9 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        // para login con facebook
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
 
     ],
 

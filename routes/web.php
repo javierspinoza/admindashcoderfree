@@ -2,6 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 
+use Laravel\Socialite\Facades\Socialite;
+use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\FacebookController;
+
 use App\Http\Livewire\Materias;
 // use App\Http\Livewire\Crud;
 
@@ -60,6 +67,36 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
+// para el login con facebook
+Route::get('auth/facebook', [FacebookController::class, 'redirectFacebook']);
+Route::get('auth/facebook/callback', [FacebookController::class, 'callbackFacebook']);
+
+// login con google
+Route::get('/login-google', function () {
+    return Socialite::driver('google')->redirect();
+});
+Route::get('/google-callback', function () {
+    $user = Socialite::driver('google')->user();
+
+    $userExists = User::where('google_id', $user->id)->where('tipo_auth', 'google')->first();
+    if ($userExists) {
+        Auth::login($userExists);
+    } else {
+        $fechaVerificacion = Carbon::now();
+        $UserNew = User::create([
+            'name' => $user->name,
+            'email' => $user->email,
+            // 'email_verified_at' => 'Hola',
+            'password' => Hash::make($user->email.'1212'),
+            'profile_photo_path' => $user->avatar,
+            'google_id' => $user->id,
+            'tipo_auth' => 'google',
+        ]);
+        Auth::login($UserNew);
+    }
+    // dd($user);
+    return redirect('/materias');
+});
 
 // primera ruta para acceder solo usuaios autencidas, segunda para verificado el correo
 // Route::group(['middleware' => 'auth'], function() {
